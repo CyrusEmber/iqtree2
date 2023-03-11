@@ -3,7 +3,7 @@ run-name: ${{ github.actor }} is building the project 🚀
 
 on:
   workflow_run:
-    workflows: [ "tests" ]
+    workflows: [ "dependency" ]
     branches: [ main ]
     types:
       - completed
