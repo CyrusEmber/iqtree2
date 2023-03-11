@@ -15,9 +15,6 @@ on:
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
-  # this is where the dependencies are installed
-  EIGEN3_INCLUDE_DIR: /usr/include/eigen3
-  BOOST_ROOT: /usr/include/boost
 
 jobs:
   install_dependency:
@@ -28,10 +25,10 @@ jobs:
         run: sudo apt update
       - name: Install Eigen3
         run: sudo apt install -y libeigen3-dev
+      - name: Check Eigen3 installation
+        run: ls /usr/include/eigen3
       - name: Find eigen3 installation location
         run: dpkg -L libeigen3-dev | grep eigen3
-      - name: Install Boost
-        run: sudo apt-get install libboost-all-dev
 
   build:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
@@ -44,23 +41,14 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Find eigen3 installation location
-      run: dpkg -L libeigen3-dev | grep eigen3
-
-    - name: Add dependency to CMake search path
-      run: |
-        cmake -DCMAKE_PREFIX_PATH=${{env.EIGEN3_INCLUDE_DIR}}
-        cmake -DCMAKE_PREFIX_PATH=${{env.BOOST_ROOT}}
-
-
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
       # See https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html?highlight=cmake_build_type
-      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} -DEIGEN3_INCLUDE_DIR=${{env.EIGEN3_INCLUDE_DIR}}
+      run: cmake -B ${{github.workspace}}/build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3
 #    - name: Test
 #      working-directory: ${{github.workspace}}/build
 #      # Execute tests defined by the CMake configuration.
