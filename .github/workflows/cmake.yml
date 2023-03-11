@@ -46,7 +46,7 @@ jobs:
 
     - name: Build
       # Build your program with the given configuration
-      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -DEIGEN3_INCLUDE_DIR=/usr/lib/libeigen3-dev
+      run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}} -DEIGEN3_INCLUDE_DIR=/usr/include/eigen3
 
 #    - name: Test
 #      working-directory: ${{github.workspace}}/build
