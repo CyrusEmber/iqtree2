@@ -32,10 +32,6 @@ jobs:
         run: dpkg -L libeigen3-dev | grep eigen3
       - name: Install Boost
         run: sudo apt-get install libboost-all-dev
-      - name: Add dependency to CMake search path
-        run: |
-          cmake -DCMAKE_PREFIX_PATH=${{env.EIGEN3_INCLUDE_DIR}}
-          cmake -DCMAKE_PREFIX_PATH=${{env.BOOST_ROOT}}
 
   build:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
@@ -47,6 +43,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+
+    - name: Add dependency to CMake search path
+      run: |
+        cmake -DCMAKE_PREFIX_PATH=${{env.EIGEN3_INCLUDE_DIR}}
+        cmake -DCMAKE_PREFIX_PATH=${{env.BOOST_ROOT}}
+
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
