@@ -60,8 +60,9 @@ jobs:
 
     - name: Debug1
       run: |
-        ls /home/runner/work/iqtree2/iqtree2/*
         ls /home/runner/work/iqtree2/lsd2/*
+        
+        
         
 
     - name: Add dependency to CMake search path
