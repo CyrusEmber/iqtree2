@@ -25,6 +25,8 @@ jobs:
         run: sudo apt update
       - name: Install Eigen3
         run: sudo apt install -y libeigen3-dev
+      - name: Check Eigen3 installation
+        run: ls /usr/include/eigen3
 
   build:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
