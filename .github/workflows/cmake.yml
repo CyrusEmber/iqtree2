@@ -57,6 +57,11 @@ jobs:
     - name: Find eigen3 installation location
       run: dpkg -L libeigen3-dev | grep eigen3
 
+    - name: Debug
+      run: |
+        ls /home/runner/work/iqtree2/iqtree2/lsd2/*
+        ls /home/runner/work/iqtree2/iqtree2/*
+
     - name: Add dependency to CMake search path
       run: |
         cmake -DCMAKE_PREFIX_PATH=${{env.EIGEN3_INCLUDE_DIR}}
