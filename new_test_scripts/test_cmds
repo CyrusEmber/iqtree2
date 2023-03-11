@@ -1,0 +1,3 @@
+-s example.phy -redo -m TEST
+-s example.phy -redo -m TEST -sp example.nex
+-s d59_8.phy -redo -m TEST -sp d59_8.nex
