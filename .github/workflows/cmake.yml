@@ -1,11 +1,7 @@
 name: CMake
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
-  # it needs to install dependency first
+  # it will start build after install the dependency
   workflow_run:
     workflows: ["dependency"]
     types: success
