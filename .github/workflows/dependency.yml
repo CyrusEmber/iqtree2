@@ -1,4 +1,5 @@
 name: dependency
+run-name: ${{ github.actor }} is installing dependency 🚀
 
 on:
   push:

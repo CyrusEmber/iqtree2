@@ -1,9 +1,10 @@
 name: CMake
+run-name: ${{ github.actor }} is building the project 🚀
 
 on:
   # it will start build after install the dependency
   workflow_run:
-    workflows: ["dependency"]
+    workflows: ["dependency.yml"]
     types: success
 
 env:
