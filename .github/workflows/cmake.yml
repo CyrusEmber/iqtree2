@@ -61,7 +61,7 @@ jobs:
     - name: Debug1
       run: |
         ls /home/runner/work/iqtree2/lsd2/*
-        
+        ls /home/runner/work/iqtree2/iqtree2/*
         
         
 
