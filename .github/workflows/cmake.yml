@@ -35,13 +35,15 @@ jobs:
 
   update_submodule:
     runs-on: ubuntu-latest
-    with:
-      submodules: 'recursive'
-    step:
-    - uses: actions/checkout@v2
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        submodules: 'recursive'
 
     - name: Initialize submodules
       run: git submodule init
+
     - name: Update submodules
       run: git submodule update --recursive
 
