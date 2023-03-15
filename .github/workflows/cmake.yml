@@ -53,8 +53,9 @@ jobs:
     # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-latest
 
-#    needs: [install_dependency]
-    needs: [update_submodule]
+    needs:
+      [install_dependency]
+      [update_submodule]
     steps:
     - uses: actions/checkout@v3
 
@@ -68,14 +69,14 @@ jobs:
 #    - name: Install Boost
 #      run: sudo apt-get install libboost-all-dev
 
-    - name: Debug
-      run: |
-        ls /home/runner/work/iqtree2/*
-
-    - name: Debug1
-      run: |
-        ls /home/runner/work/iqtree2/lsd2/*
-        ls /home/runner/work/iqtree2/iqtree2/*
+#    - name: Debug
+#      run: |
+#        ls /home/runner/work/iqtree2/*
+#
+#    - name: Debug1
+#      run: |
+#        ls /home/runner/work/iqtree2/lsd2/*
+#        ls /home/runner/work/iqtree2/iqtree2/*
         
         
 
