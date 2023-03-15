@@ -20,24 +20,23 @@ env:
   BOOST_ROOT: /usr/include/boost
 
 jobs:
-#  install_dependency:
-#    # The installation commands are not platform agnostic and should not work well on Windows or Mac.
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Update apt
-#        run: sudo apt update
-#      - name: Install Eigen3
-#        run: sudo apt install -y libeigen3-dev
-#      - name: Find eigen3 installation location
-#        run: dpkg -L libeigen3-dev | grep eigen3
-#      - name: Install Boost
-#        run: sudo apt-get install libboost-all-dev
+  install_dependency:
+    # The installation commands are not platform agnostic and should not work well on Windows or Mac.
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update apt
+        run: sudo apt update
+      - name: Install Eigen3
+        run: sudo apt install -y libeigen3-dev
+      - name: Find eigen3 installation location
+        run: dpkg -L libeigen3-dev | grep eigen3
+      - name: Install Boost
+        run: sudo apt-get install libboost-all-dev
 
   update_submodule:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
         submodules: 'recursive'
 
@@ -54,7 +53,7 @@ jobs:
     runs-on: ubuntu-latest
 
     needs:
-#      [install_dependency]
+      [install_dependency]
       [update_submodule]
 
     steps:
