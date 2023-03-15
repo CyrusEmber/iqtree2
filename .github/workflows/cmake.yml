@@ -20,18 +20,18 @@ env:
   BOOST_ROOT: /usr/include/boost
 
 jobs:
-  update_submodule:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        submodules: 'recursive'
-
-    - name: Initialize submodules
-      run: git submodule init
-
-    - name: Update submodules
-      run: git submodule update --recursive
+#  update_submodule:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v3
+#      with:
+#        submodules: 'recursive'
+#
+#    - name: Initialize submodules
+#      run: git submodule init
+#
+#    - name: Update submodules
+#      run: git submodule update --recursive
 
   build:
     # The CMake configure and build commands are platform agnostic and should work equally well on Windows or Mac.
@@ -54,6 +54,13 @@ jobs:
       run: dpkg -L libeigen3-dev | grep eigen3
     - name: Install Boost
       run: sudo apt-get install libboost-all-dev
+
+    # update submodules
+    - name: Initialize submodules
+      run: git submodule init
+
+    - name: Update submodules
+      run: git submodule update --recursive
 
 #    - name: Debug
 #      run: |
