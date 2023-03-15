@@ -38,6 +38,8 @@ jobs:
     with:
       submodules: 'recursive'
     step:
+    - uses: actions/checkout@v2
+
     - name: Initialize submodules
       run: git submodule init
     - name: Update submodules
