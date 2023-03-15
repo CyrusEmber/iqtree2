@@ -54,7 +54,7 @@ jobs:
     runs-on: ubuntu-latest
 
 #    needs: [install_dependency]
-
+    needs: [update_submodule]
     steps:
     - uses: actions/checkout@v3
 
