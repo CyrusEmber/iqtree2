@@ -66,10 +66,10 @@ jobs:
         
         
 
-    - name: Add dependency to CMake search path
-      run: |
-        cmake -DCMAKE_PREFIX_PATH=${{env.EIGEN3_INCLUDE_DIR}}
-        cmake -DCMAKE_PREFIX_PATH=${{env.BOOST_ROOT}}
+#    - name: Add dependency to CMake search path
+#      run: |
+#        cmake -DCMAKE_PREFIX_PATH=${{env.EIGEN3_INCLUDE_DIR}}
+#        cmake -DCMAKE_PREFIX_PATH=${{env.BOOST_ROOT}}
 
 
     - name: Configure CMake
