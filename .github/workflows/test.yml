@@ -79,7 +79,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Upload iqtree2 build file
+      - name: Download iqtree2 build file
         uses: actions/upload-artifact@v3
         with:
           name: iqtree2
