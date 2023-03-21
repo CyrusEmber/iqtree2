@@ -63,22 +63,24 @@ jobs:
   #      run: ctest -C ${{env.BUILD_TYPE}}
 
       - name: Upload iqtree2 build file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: iqtree2
           path: build/iqtree2
 
-  test_build:
+  test_iqtree2_build:
+    # do test for newly build iqtree2
     runs-on: ubuntu-latest
     needs: build
     steps:
+      - uses: actions/checkout@v3
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Upload iqtree2 build file
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: iqtree2
           path: ${{env.TEST_DIR}}/bin
@@ -88,15 +90,16 @@ jobs:
           cd ${{env.TEST_DIR}}
           python3 test1.py
 
-      - name: Download the test result for iqtree2
-        uses: actions/download-artifact@v2
+      - name: Upload the test result for iqtree2
+        uses: actions/upload-artifact@v3
         with:
           name: result2
-          path: ${{env.TEST_DIR}}
+          path: ${{env.TEST_DIR}}\result2
 
 
   test_iqtree1:
     # could support multiple platform and multiple version of python
+    # test on iqtree 1 and upload the result to artifact
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -120,23 +123,25 @@ jobs:
           python3 test1.py
 
       - name: upload the test result for iqtree1
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: result1
-          path: ${{env.TEST_DIR}}
+          path: ${{env.TEST_DIR}}\result1
 
   compare_test:
+    # get the result1 and result2 from artifact then compare
     runs-on: ubuntu-latest
     needs: [test_build, test_iqtree1]
     steps:
+      - uses: actions/checkout@v3
       - name: Download result for iqtree2
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: result2
           path: ${{env.TEST_DIR}}
 
       - name: Download result for iqtree1
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: result1
           path: ${{env.TEST_DIR}}
