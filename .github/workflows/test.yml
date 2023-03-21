@@ -77,7 +77,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Download iqtree2 build file
+      - name: Upload iqtree2 build file
         uses: actions/upload-artifact@v2
         with:
           name: iqtree2
@@ -88,7 +88,7 @@ jobs:
           cd ${{env.TEST_DIR}}
           python3 test1.py
 
-      - name: upload the test result for iqtree2
+      - name: Download the test result for iqtree2
         uses: actions/download-artifact@v2
         with:
           name: result2
@@ -120,7 +120,7 @@ jobs:
           python3 test1.py
 
       - name: upload the test result for iqtree1
-        uses: actions/download-artifact@v2
+        uses: actions/upload-artifact@v2
         with:
           name: result1
           path: ${{env.TEST_DIR}}
