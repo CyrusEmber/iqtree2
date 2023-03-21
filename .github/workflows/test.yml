@@ -88,7 +88,7 @@ jobs:
       - name: Run test for iqtree2
         run: |
           cd ${{env.TEST_DIR}}
-          python3 test1.py
+          python3 test2.py
 
       - name: Upload the test result for iqtree2
         uses: actions/upload-artifact@v3
@@ -116,7 +116,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
 
-      # test
+      # test iqtree1
       - name: testing
         run: |
           cd ${{env.TEST_DIR}}
