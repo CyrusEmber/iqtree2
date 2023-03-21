@@ -31,18 +31,6 @@ def get_config(filename='config.ini'):
     return config_dict
 
 
-# FIXME add it for log output
-# def parse_part_aln(filename):
-#     if filename[-4:] != ".phy":
-#         logger.warning(f"partition alignment‘ format is wrong: {filename}")
-#         return
-#     else:
-#         if os.path.exists(f"./test_data/{filename[:-4]}.nex"):
-#             return filename[:-4] + ".nex"
-#         else:
-#             logger.warning(f"No according \".nex\" file for: {filename}")
-
-
 def gen_test_cmds(in_file='config.ini', out_file="test_cmds", test_files="test_data/", iqtree=None, bin="build", flag=None):
     '''This function reads config file and output test commands accordingly.
     It can output a txt file or return the test commands for further use.
@@ -88,4 +76,3 @@ def set_config(filename='config.ini'):
     pass
 
 
-# gen_test_cmds()
