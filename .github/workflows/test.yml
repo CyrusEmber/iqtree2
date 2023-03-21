@@ -88,6 +88,13 @@ jobs:
           cd ${{env.TEST_DIR}}
           python3 test1.py
 
+      - name: upload the test result for iqtree2
+        uses: actions/download-artifact@v2
+        with:
+          name: result2
+          path: ${{env.TEST_DIR}}
+
+
   test_iqtree1:
     # could support multiple platform and multiple version of python
     runs-on: ubuntu-latest
@@ -112,8 +119,11 @@ jobs:
           cd ${{env.TEST_DIR}}
           python3 test1.py
 
-      - name: compare test
-        run: python3 test_compare.py
+      - name: upload the test result for iqtree1
+        uses: actions/download-artifact@v2
+        with:
+          name: result1
+          path: ${{env.TEST_DIR}}
 
   compare_test:
     runs-on: ubuntu-latest
@@ -122,15 +132,23 @@ jobs:
       - name: Download result for iqtree2
         uses: actions/download-artifact@v2
         with:
-          name: iqtree2
+          name: result2
           path: ${{env.TEST_DIR}}
 
-      - name: upload the compare result
+      - name: Download result for iqtree1
         uses: actions/download-artifact@v2
         with:
-          name: iqtree2
+          name: result1
           path: ${{env.TEST_DIR}}
+
+      - name: compare test
+        run: |
+          cd ${{env.TEST_DIR}}
+          python3 test_compare.py
+
       - name: Display image
-        run: echo "![Result](compare result.png)"
+        run: |
+          cd ${{env.TEST_DIR}}
+          echo "![Result](compare result.png)"
 
 
