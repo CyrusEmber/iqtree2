@@ -125,12 +125,12 @@ jobs:
           name: iqtree2
           path: ${{env.TEST_DIR}}
 
-        - name: upload the compare result
-          uses: actions/download-artifact@v2
-          with:
-            name: iqtree2
-            path: ${{env.TEST_DIR}}
-        - name: Display image
-          run: echo "![Result](compare result.png)"
+      - name: upload the compare result
+        uses: actions/download-artifact@v2
+        with:
+          name: iqtree2
+          path: ${{env.TEST_DIR}}
+      - name: Display image
+        run: echo "![Result](compare result.png)"
 
 
