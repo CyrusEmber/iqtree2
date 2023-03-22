@@ -115,7 +115,6 @@ jobs:
         run: |
           cd ${{env.TEST_DIR}}
           python3 test1.py
-          ls -a
 
       - name: upload the test result for iqtree1
         uses: actions/upload-artifact@v3
