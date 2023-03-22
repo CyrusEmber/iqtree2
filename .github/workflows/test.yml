@@ -145,10 +145,11 @@ jobs:
           name: result2
           path: ${{env.TEST_DIR}}
 
-#      - name: Install dependency
-#        run: |
-#          python -m pip install --upgrade pip
-#          pip install -r requirements.txt
+      - name: Install dependency
+        run: |
+          python -m pip install --upgrade pip
+          cd new
+          pip install -r requirements.txt
 
       - name: Download result for iqtree1
         uses: actions/download-artifact@v3
