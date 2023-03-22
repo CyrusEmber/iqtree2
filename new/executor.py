@@ -66,7 +66,7 @@ def concurrent_commands(cmds, processors=None, timeout=None, result="result"):
 
     # output the result to compare in later workflow
     # in format: cmd log-likelihood time
-    if len(result_dict) > 0:
+    if len(result_dict) > 0 and result is not None:
         with open(result, "w") as f:
             for item in result_dict:
                 f.write(f"{item} {result_dict[item][0]} {result_dict[item][1]}\n")
