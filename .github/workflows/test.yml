@@ -87,7 +87,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: result2
-          path: ${{env.TEST_DIR}}\result2
+          path: ${{env.TEST_DIR}}/result2
 
 
   test_iqtree1:
@@ -120,7 +120,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: result1
-          path: ${{env.TEST_DIR}}\result1
+          path: ${{env.TEST_DIR}}/result1
 
 
   compare_test:
