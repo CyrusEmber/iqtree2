@@ -9,3 +9,4 @@ if __name__ == '__main__':
     test_cmds = data.gen_test_cmds(iqtree="iqtree2", bin="bin")
     concurrent_commands(test_cmds, result="result2")
 
+
