@@ -1,0 +1,29 @@
+partition_alignments:
+  - aln: example.phy
+    prt: example.nex
+#  - aln: d59_8.phy
+#    prt: d59_8.nex
+
+single_alignments:
+  - example.phy
+  - d59_8.phy
+
+partition_options:
+   - -sp
+   - -spp
+
+generic_options:
+   - -m TEST
+
+specific_test:
+  - cmd: -s test_data/example.phy -redo -sp test_data/example.nex
+    keyword: "BEST SCORE FOUND :"
+    EXPECTEDLE: 10.2
+  - cmd: -s test_data/example.phy -redo -sp test_data/example.nex
+    keyword: "Total wall-clock time used:"
+    EXPECTEDGE: 1
+    EXPECTEDLE: 40
+  - cmd: -s test_data/example.phy -redo -sp test_data/example.nex
+    keyword: "Total wall-clock time used:"
+    compare: iqtree1
+    EXPECTEDGE: 0.5
