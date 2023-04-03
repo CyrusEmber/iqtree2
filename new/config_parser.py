@@ -20,6 +20,7 @@ class YmlParser:
         self.data = None
         self.parse(file)
         self.cmds = []
+        self.special_test = {}
         print(self.data)
 
     def parse(self, file):
@@ -64,17 +65,22 @@ class YmlParser:
         return self.cmds
 
     def gen_specific_test(self):
-        keys = ["EXPECTEDLE", "EXPECTEDGE", "EXPECTEDGT", "EXPECTEDGLT", "EXPECTEDGEQ"]
-        cmds = []
+        keys = ["EXPECT_LE", "EXPECT_GE", "EXPECT_GT", "EXPECT_LT", "EXPECT_EQ"]
         for test in self.data["specific_test"]:
+            # tuple of (key, value) e.g. ("EXPECTEDLE", 0.01)
+            cmd = CMD()
             for key in test:
-                cmd = CMD()
+                keyword = None
+                expect = None
                 if key == "cmd":
                     cmd.cmd = test["cmd"]
                 elif key == "keyword":
-                    cmd.keyword.append(f"-s {test['aln']}")
-                else:
+                    keyword = test["keyword"]
+                elif key in keys:
                     cmd.specific_test.append((key, test[key]))
+
+
+            self.special_test[cmd] = cmd.specific_test
 
 
             cmd = test["cmd"]
@@ -92,37 +98,31 @@ class CMD:
         Bin is the path to iqtree binary.
         """
         self.cmd = None
-        self.single_aln = single_aln
-        self.part_aln = part_aln
-        self.option = option
-        self.part_option = part_option
-        self.test_dir = test_dir
-        self.bin = iqbin
 
         # special test
         self.specific_test = []
-        self.keyword = None
+        self.keyword = []
 
-    def gen_test_cmds(self):
-        """
-        This function reads config file and output test commands in a list accordingly.
-        """
-        # Generate test commands for single model
-        cmd = ""
-        if self.single_aln is not None:
-            cmd = f"-s {self.test_dir}{self.single_aln} -redo"
-
-        # Generate test commands for partition model and
-        elif self.part_option is not None:
-            cmd = f"-s {self.test_dir}{self.part_aln['aln']} -redo {self.part_option} {self.test_dir}{self.part_aln['prt']}"
-
-        # test commands that with more options
-        cmd = f"{cmd} {self.option}"
-
-        # adding iqtree directory to the start of cmd
-        cmd = f"{self.bin} {cmd}"
-
-        self.cmd = cmd
+    # def gen_test_cmds(self):
+    #     """
+    #     This function reads config file and output test commands in a list accordingly.
+    #     """
+    #     # Generate test commands for single model
+    #     cmd = ""
+    #     if self.single_aln is not None:
+    #         cmd = f"-s {self.test_dir}{self.single_aln} -redo"
+    #
+    #     # Generate test commands for partition model and
+    #     elif self.part_option is not None:
+    #         cmd = f"-s {self.test_dir}{self.part_aln['aln']} -redo {self.part_option} {self.test_dir}{self.part_aln['prt']}"
+    #
+    #     # test commands that with more options
+    #     cmd = f"{cmd} {self.option}"
+    #
+    #     # adding iqtree directory to the start of cmd
+    #     cmd = f"{self.bin} {cmd}"
+    #
+    #     self.cmd = cmd
 
     def equal(self, other): # FIXME
         if self.cmd == other.cmd:

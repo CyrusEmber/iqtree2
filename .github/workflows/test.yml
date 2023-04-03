@@ -108,7 +108,8 @@ jobs:
       - name: Install dependency
         run: |
           python -m pip install --upgrade pip
-#          pip install -r requirements.txt
+          cd ${{env.TEST_DIR}}
+          pip install -r requirements.txt
 
       # test iqtree1
       - name: testing
@@ -148,7 +149,7 @@ jobs:
       - name: Install dependency
         run: |
           python -m pip install --upgrade pip
-          cd new
+          cd ${{env.TEST_DIR}}
           pip install -r requirements.txt
 
       - name: Download result for iqtree1
