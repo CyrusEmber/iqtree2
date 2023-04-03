@@ -49,8 +49,8 @@ class YmlParser:
                 self.cmds.append(cmd)
 
         # test commands that with more options
-        for opt in self.data["option"]:
-            self.cmds = [f"{cmd} {opt}" for cmd in self.cmds]
+        # for opt in self.data["option"]:
+        #     self.cmds = [f"{cmd} {opt}" for cmd in self.cmds]
 
         # adding iqtree directory to the start of cmd
         self.cmds = [f"{bin}/{iqtree} {cmd}" for cmd in self.cmds]
