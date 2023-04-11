@@ -14,6 +14,7 @@ cmd2, log2, time2 = [], [], []
 
 keys = ["equal", "greater", "less", "greater_equal", "less_equal", "between"]
 
+
 def compare(value, expected_value, test):
     if value is None:
         pass
@@ -33,8 +34,9 @@ def compare(value, expected_value, test):
         else:
             return expected_value[1] <= value <= expected_value[0]
 
+
 # iqtree1
-with open("iqtree1_result.yml", "r") as result:
+with open(args.iqtree1, "r") as result:
     data1 = yaml.safe_load(result)
     # iqtree2
     with open(args.iqtree2, "r") as result2:
@@ -62,11 +64,9 @@ with open("iqtree1_result.yml", "r") as result:
                 else:
                     data2[i]["iqtree1 result"] = "No Result"
 
-        with open("result.yml", "w") as f:
+        with open(args.output_file, "w") as f:
             yaml.dump(data2, f)
         f.close()
-
-
 
 # plot
 plt.subplot(2, 1, 1)
@@ -82,4 +82,3 @@ plt.legend()
 plt.title('running time')
 plt.savefig('compare result.png')
 plt.show()
-

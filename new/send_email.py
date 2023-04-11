@@ -1,6 +1,9 @@
 import logging
 import smtplib, ssl
 import os
+from email import encoders
+from email.mime.base import MIMEBase
+from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import argparse
 
@@ -11,7 +14,8 @@ logger = gen_log("test")
 parser = argparse.ArgumentParser()
 
 parser.add_argument('-t', '--to', dest='to_email', help='the email receiver')
-parser.add_argument('-s', '--sub', dest='subject', help='email subject')
+parser.add_argument('-r', '--result', dest='result', help='the result yaml file')
+# parser.add_argument('-i', '--image', dest='image', help='the result image')
 
 
 # Parse the command-line arguments
@@ -26,9 +30,9 @@ password = 'Daohaomei77'
 # Email settings
 to_email = ''
 from_email = username
-email_subject = ''
+email_subject = 'Github Action Result'
 email_body = ''
-
+msg = MIMEMultipart()
 # Access the options
 if args.to_email:
     logger.info(f'Send email to: {args.to_email}')
@@ -45,8 +49,16 @@ for file in os.listdir(os.path.dirname(os.path.abspath(__file__))):
     if file.endswith(".log"):
         print(file)
 
-
-
+# Attach file
+with open(args.result, "rb") as attachment:
+    part = MIMEBase("application", "octet-stream")
+    part.set_payload(attachment.read())
+    encoders.encode_base64(part)
+    part.add_header(
+        "Content-Disposition",
+        f"attachment; filename= {args.result}",
+    )
+    msg.attach(part)
 
 
 # Create the email message
@@ -60,3 +72,6 @@ with smtplib.SMTP(server, port) as server:
     server.starttls()
     server.login(username, password)
     server.sendmail(from_email, to_email, msg.as_string())
+    server.quit()
+
+print("Email sent successfully!")
