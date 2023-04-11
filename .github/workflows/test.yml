@@ -170,6 +170,12 @@ jobs:
           python3 test_compare.py -1 ${{env.IQTREE1_OUTPUT}} -2 ${{env.IQTREE2_OUTPUT}}
         # -o compare result.png
 
+      - name: upload the overall result
+        uses: actions/upload-artifact@v3
+        with:
+          name: result.yml
+          path: ${{env.TEST_DIR}}/result.yml
+
       - name: Display image
         run: |
           cd ${{env.TEST_DIR}}
