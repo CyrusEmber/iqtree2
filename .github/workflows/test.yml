@@ -191,7 +191,7 @@ jobs:
       - name: Send email
         run: |
           cd ${{env.TEST_DIR}}
-          python3 send_email.py -t ${{github.event.pusher.email} -r result.yml
+          python3 send_email.py -t ${{github.event.pusher.email}} -r result.yml
 
 
 
