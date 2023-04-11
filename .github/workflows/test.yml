@@ -11,6 +11,12 @@ env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
   TEST_DIR: "new"
+  IQTREE1_VERSION: "iqtree"
+  IQTREE2_VERSION: "iqtree2"
+  BIN_DIR: "bin"
+  CONFIG_DIR: "config.yml"
+  IQTREE1_OUTPUT: "iqtree1_result.yml"
+  IQTREE2_OUTPUT: "iqtree2_result.yml"
 
 jobs:
   build:
@@ -81,13 +87,13 @@ jobs:
         run: |
           cd ${{env.TEST_DIR}}
           chmod +x bin/iqtree2
-          python3 test2.py
+          python3 test.py -v ${{env.IQTREE2_VERSION}} --bin_dir ${{env.BIN_DIR}} -c ${{env.CONFIG_DIR}} -o ${{env.IQTREE2_OUTPUT}}
 
       - name: Upload the test result for iqtree2
         uses: actions/upload-artifact@v3
         with:
-          name: result2
-          path: ${{env.TEST_DIR}}/result2
+          name: ${{env.IQTREE2_OUTPUT}}
+          path: ${{env.TEST_DIR}}/${{env.IQTREE2_OUTPUT}}
 
 
   test_iqtree1:
@@ -115,13 +121,13 @@ jobs:
       - name: testing
         run: |
           cd ${{env.TEST_DIR}}
-          python3 test1.py
+          python3 test.py -v ${{env.IQTREE1_VERSION}} --bin_dir ${{env.BIN_DIR}} -c ${{env.CONFIG_DIR}} -o ${{env.IQTREE1_OUTPUT}}
 
       - name: upload the test result for iqtree1
         uses: actions/upload-artifact@v3
         with:
-          name: result1
-          path: ${{env.TEST_DIR}}/result1
+          name: ${{env.IQTREE1_OUTPUT}}
+          path: ${{env.TEST_DIR}}/${{env.IQTREE1_OUTPUT}}
 
 
   compare_test:
@@ -143,7 +149,13 @@ jobs:
       - name: Download result for iqtree2
         uses: actions/download-artifact@v3
         with:
-          name: result2
+          name: ${{env.IQTREE2_OUTPUT}}
+          path: ${{env.TEST_DIR}}
+
+      - name: Download result for iqtree1
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{env.IQTREE1_OUTPUT}}
           path: ${{env.TEST_DIR}}
 
       - name: Install dependency
@@ -152,16 +164,11 @@ jobs:
           cd ${{env.TEST_DIR}}
           pip install -r requirements.txt
 
-      - name: Download result for iqtree1
-        uses: actions/download-artifact@v3
-        with:
-          name: result1
-          path: ${{env.TEST_DIR}}
-
       - name: compare test
         run: |
           cd ${{env.TEST_DIR}}
-          python3 test_compare.py
+          python3 test_compare.py -1 ${{env.IQTREE1_OUTPUT}} -2 ${{env.IQTREE2_OUTPUT}}
+        # -o compare result.png
 
       - name: Display image
         run: |

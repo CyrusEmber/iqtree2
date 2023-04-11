@@ -1,5 +1,6 @@
-import datetime
+from datetime import datetime, timezone
 import logging
+from tzlocal import get_localzone
 import multiprocessing
 
 
@@ -7,11 +8,13 @@ def gen_log(name='test'):
     # Set up logger
     logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
-    my_time = datetime.datetime.now()
-    handler = logging.FileHandler(name + "." + str(my_time.year) + str(my_time.month) + str(my_time.day) +
-                                  str(my_time.hour) + str(my_time.minute) + str(my_time.second) + ".log")
+
+    # handle the time zone
+    utc_dt = datetime.now(timezone.utc)
+    handler = logging.FileHandler(name + "." + utc_dt.astimezone(get_localzone()).strftime('%Y-%m-%d %H-%M-%S') + ".log")
+
     handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+    formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
     handler.setFormatter(formatter)
     logger.addHandler(handler)
     # FIXME platforms... Options...

@@ -6,7 +6,7 @@ partition_alignments:
 
 single_alignments:
   - example.phy
-  - d59_8.phy
+#  - d59_8.phy
 
 partition_options:
    - -sp
@@ -17,22 +17,23 @@ generic_options:
 
 specific_test:
   # iqtree2 location is in the bin folder
-  - cmd: -s test_data/example.phy -redo -sp test_data/example.nex
-    keyword: "BEST SCORE FOUND :"
-    EXPECT_LE: 10.2
-  - cmd: -s test_data/example.phy -redo -sp test_data/example.nex
-    keyword: "Total wall-clock time used:"
-    EXPECT_GE: 10.1
-  - cmd: -s test_data/example.phy -redo -sp test_data/example.nex
-    keyword: "Total wall-clock time used:"
-    EXPECT_GE: 1
-    EXPECT_LE: 40
-  - cmd: -s test_data/example.phy -redo -sp test_data/example.nex
-    keyword: "Total wall-clock time used:"
-    EXPECT_EQ: iqtree1 # category
-    EXPECT_GE: 0.5
-  - cmd: -s test_data/example.phy -redo -sp test_data/example.nex
-    keyword: "Number of categories:"
-    EXPECT_GE: 3
-    EXPECT_LE: 5
+  - name: my test 1
+    command: -s test_data/example.phy -redo -sp test_data/example.nex
+    tests:
+      - log: "BEST SCORE FOUND :"
+        equal: 10.2
+        between: [3, 5]
+      - log: "Total wall-clock time used:"
+        greater: 10.1
+      - log: "Number of categories:"
+        greater_equal: 3
+        less_equal: 5
+      - log: "Total wall-clock time used:"
+        greater_equal: 0.5
+#  - name: my test 2
+#    command: -s test_data/example.phy -redo -sp test_data/example.nex - -m TEST
+#    tests:
+#      - log: "Total wall-clock time used:"
+#        greater: 10.1
+
 
