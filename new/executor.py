@@ -35,7 +35,7 @@ def run_command(command: dict):
 
 def find_keyword_match(outputs, keywords):
     """
-    This function finds keywords in outputs and return the string after the keyword
+    This function finds keywords in outputs and return the string (should be a float) after the keyword
     """
     # outputs is output.split()
     # parse critical information from output file or (log file)

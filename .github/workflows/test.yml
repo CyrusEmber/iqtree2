@@ -99,8 +99,8 @@ jobs:
       - name: Upload the test result for iqtree2
         uses: actions/upload-artifact@v3
         with:
-          name: ${{env.IQTREE2_OUTPUT}}
-          path: ${{env.TEST_DIR}}/${{env.IQTREE2_OUTPUT}}
+          name: ${{env.IQTREE2_RESULT}}
+          path: ${{env.TEST_DIR}}/${{env.IQTREE2_RESULT}}
 
 
   test_iqtree1:
@@ -133,8 +133,8 @@ jobs:
       - name: upload the test result for iqtree1
         uses: actions/upload-artifact@v3
         with:
-          name: ${{env.IQTREE1_OUTPUT}}
-          path: ${{env.TEST_DIR}}/${{env.IQTREE1_OUTPUT}}
+          name: ${{env.IQTREE1_RESULT}}
+          path: ${{env.TEST_DIR}}/${{env.IQTREE1_RESULT}}
 
 
   compare_test:
@@ -156,13 +156,13 @@ jobs:
       - name: Download result for iqtree2
         uses: actions/download-artifact@v3
         with:
-          name: ${{env.IQTREE2_OUTPUT}}
+          name: ${{env.IQTREE2_RESULT}}
           path: ${{env.TEST_DIR}}
 
       - name: Download result for iqtree1
         uses: actions/download-artifact@v3
         with:
-          name: ${{env.IQTREE1_OUTPUT}}
+          name: ${{env.IQTREE1_RESULT}}
           path: ${{env.TEST_DIR}}
 
       - name: Install dependency

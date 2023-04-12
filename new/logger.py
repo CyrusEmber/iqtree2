@@ -10,8 +10,9 @@ def gen_log(name='test'):
     logger.setLevel(logging.DEBUG)
 
     # handle the time zone
-    utc_dt = datetime.now(timezone.utc)
-    handler = logging.FileHandler(name + "." + utc_dt.astimezone(get_localzone()).strftime('%Y-%m-%d %H-%M-%S') + ".log")
+    # utc_dt = datetime.now(timezone.utc)
+    # + "." + utc_dt.astimezone(get_localzone()).strftime('%Y-%m-%d %H-%M-%S') +
+    handler = logging.FileHandler(name + ".log")
 
     handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(name)s - %(levelname)s - %(message)s')
