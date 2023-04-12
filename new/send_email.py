@@ -33,6 +33,7 @@ from_email = username
 email_subject = 'Github Action Result'
 email_body = ''
 msg = MIMEMultipart()
+
 # Access the options
 if args.to_email:
     logger.info(f'Send email to: {args.to_email}')
