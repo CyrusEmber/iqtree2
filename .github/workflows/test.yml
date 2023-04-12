@@ -94,7 +94,7 @@ jobs:
         run: |
           cd ${{env.TEST_DIR}}
           chmod +x bin/iqtree2
-          python3 test.py -v ${{env.IQTREE2_VERSION}} -b ${{env.BIN_DIR}} -c ${{env.CONFIG_DIR}} -o ${{env.IQTREE2_OUTPUT}}
+          python3 test.py -v ${{env.IQTREE2_VERSION}} -b ${{env.BIN_DIR}} -c ${{env.CONFIG_DIR}} -o ${{env.IQTREE2_RESULT}}
 
       - name: Upload the test result for iqtree2
         uses: actions/upload-artifact@v3
@@ -128,7 +128,7 @@ jobs:
       - name: testing
         run: |
           cd ${{env.TEST_DIR}}
-          python3 test.py -v ${{env.IQTREE1_VERSION}} -b ${{env.BIN_DIR}} -c ${{env.CONFIG_DIR}} -o ${{env.IQTREE1_OUTPUT}}
+          python3 test.py -v ${{env.IQTREE1_VERSION}} -b ${{env.BIN_DIR}} -c ${{env.CONFIG_DIR}} -o ${{env.IQTREE1_RESULT}}
 
       - name: upload the test result for iqtree1
         uses: actions/upload-artifact@v3
