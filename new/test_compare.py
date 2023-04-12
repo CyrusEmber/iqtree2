@@ -48,10 +48,13 @@ def compare(test_value, expected_value, test):
 
 
 # iqtree1 args.iqtree1 args.iqtree2
-with open("iqtree1_result.yml", "r") as result:
+with open(args.iqtree1, "r") as result:
     data1 = yaml.safe_load(result)
+    # count the failed and passed tests
+    failed_tests = 0
+    passed_tests = 0
     # iqtree2
-    with open("iqtree1_result.yml", "r") as result2:
+    with open(args.iqtree2, "r") as result2:
         data2 = yaml.safe_load(result2)
         # check if the special tests results are true
         for i in range(len(data1)):
@@ -97,10 +100,12 @@ with open("iqtree1_result.yml", "r") as result:
                     test_dict2["result"] = "Failed"
             if overall_passed:
                 data2[i]["result"] = "Passed"
+                passed_tests += 1
             else:
                 data2[i]["result"] = "Failed"
-        # args.output_file
-        with open("result.yml", "w") as f:
+                failed_tests += 1
+        # args.output_file "result.yml"
+        with open(args.output_file, "w") as f:
             yaml.dump(data2, f)
         f.close()
 

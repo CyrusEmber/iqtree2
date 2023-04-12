@@ -15,8 +15,8 @@ env:
   IQTREE2_VERSION: "iqtree2"
   BIN_DIR: "bin"
   CONFIG_DIR: "config.yml"
-  IQTREE1_OUTPUT: "iqtree1_result.yml"
-  IQTREE2_OUTPUT: "iqtree2_result.yml"
+  IQTREE1_RESULT: "iqtree1_result.yml"
+  IQTREE2_RESULT: "iqtree2_result.yml"
   COMPARE_OUTPUT: "result.yml"
 
 jobs:
@@ -174,7 +174,7 @@ jobs:
       - name: Compare test
         run: |
           cd ${{env.TEST_DIR}}
-          python3 test_compare.py -1 ${{env.IQTREE1_OUTPUT}} -2 ${{env.IQTREE2_OUTPUT}} -o ${{env.COMPARE_OUTPUT}}
+          python3 test_compare.py -1 ${{env.IQTREE1_RESULT}} -2 ${{env.IQTREE2_RESULT}} -o ${{env.COMPARE_OUTPUT}}
         # -o compare result.png
 
       - name: Upload the overall result
