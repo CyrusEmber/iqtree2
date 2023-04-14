@@ -12,10 +12,6 @@ args = parser.parse_args()
 # set up logger
 logger = gen_log(f"compare {args.iqtree1} {args.iqtree2}")
 
-cmd = []
-cmd1, log1, time1 = [], [], []
-cmd2, log2, time2 = [], [], []
-
 keys = ["equal", "greater", "less", "greater_equal", "less_equal", "between"]
 
 
@@ -82,7 +78,8 @@ with open(args.iqtree1, "r") as result:
                 # check if value exists
                 if "value" in test_dict2.keys():
                     test_value = test_dict2["value"]
-                    passed = True                    # if there are tests
+                    passed = True
+                    # if there are tests
                     is_test = False
                     for key in test_dict2.keys():
                         if key in keys:
@@ -96,6 +93,7 @@ with open(args.iqtree1, "r") as result:
                         test_dict2["result"] = "NoTest"
                     else:
                         test_dict2["result"] = "Failed"
+                # if there is no value
                 else:
                     test_dict2["result"] = "Failed"
             if overall_passed:
@@ -109,17 +107,38 @@ with open(args.iqtree1, "r") as result:
             yaml.dump(data2, f)
         f.close()
 
-# plot
-plt.subplot(2, 1, 1)
-plt.plot(cmd, [float(log1[i]) - float(log2[i]) for i in range(len(log1))], label="difference")
-plt.axhline(0, color='red')
-plt.legend()
-plt.title('log likelihood')
-plt.subplot(2, 1, 2)
+# plot the result
+plot_keywords = ["log likelihood", 'time used:']
+name = []
+data1 = [[] for _ in range(len(plot_keywords))]
+data2 = [[] for _ in range(len(plot_keywords))]
 
-plt.plot(cmd, [float(time1[i]) / float(time2[i]) for i in range(len(log1))], label="ratio")
-plt.axhline(1, color='red')
-plt.legend()
-plt.title('running time')
-plt.savefig('compare result.png')
-plt.show()
+with open(args.output_file, "w") as f:
+    data = yaml.safe_load(f)
+    for cmd in data:
+        for test in cmd["tests"]:
+            if "value" in test.keys():
+                for i in range(len(plot_keywords)):
+                    if plot_keywords[i] == test["log"] and "benchmark" in test.keys() and "value" in test.keys():
+                        # for cmd with no name, default name is the prefix of the test
+                        if "name" in cmd.keys():
+                            name.append(cmd["name"])
+                        else:
+                            name.append(cmd["command"].split(" ")[-1])
+                        data1[i].append(test["value"])
+                        data2[i].append(test["benchmark"])
+
+    # plot
+    # plt.subplot(2, 1, 1)
+    # plt.plot(cmd, [float(log1[i]) - float(log2[i]) for i in range(len(log1))], label="difference")
+    # plt.axhline(0, color='red')
+    # plt.legend()
+    # plt.title('log likelihood')
+    # plt.subplot(2, 1, 2)
+    #
+    # plt.plot(cmd, [float(time1[i]) / float(time2[i]) for i in range(len(log1))], label="ratio")
+    # plt.axhline(1, color='red')
+    # plt.legend()
+    # plt.title('running time')
+    # plt.savefig('compare result.png')
+    # plt.show()

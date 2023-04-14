@@ -18,7 +18,6 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-t', '--to', dest='to_email', help='the email receiver')
 parser.add_argument('-r', '--result', dest='result', help='the result yaml file')
 parser.add_argument('-g', '--github_repo', dest='repository', help='github repository')
-parser.add_argument('-l', '--log', dest='log', help='iqtree log file')
 # parser.add_argument('-i', '--image', dest='image', help='the result image')
 
 
@@ -82,17 +81,6 @@ with open(args.result, "rb") as attachment:
 
     # Set body
     # email_body = f'Please find the result attached'
-# add log file to attachment
-with open(args.log, "rb") as attachment:
-    part = MIMEBase("application", "octet-stream")
-    part.set_payload(attachment.read())
-    encoders.encode_base64(part)
-    part.add_header(
-        "Content-Disposition",
-        f"attachment; filename= {args.log}",
-    )
-    msg.attach(part)
-    attachment.close()
 
 # Create the email message
 msg = MIMEText(email_body)
