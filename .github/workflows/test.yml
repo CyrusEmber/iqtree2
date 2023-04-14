@@ -17,6 +17,7 @@ env:
   CONFIG_DIR: "config.yml"
   IQTREE1_RESULT: "iqtree1_result.yml"
   IQTREE2_RESULT: "iqtree2_result.yml"
+  IQTREE2_LOG: "iqtree2.log"
   COMPARE_OUTPUT: "result.yml"
 
 jobs:
@@ -101,6 +102,12 @@ jobs:
         with:
           name: ${{env.IQTREE2_RESULT}}
           path: ${{env.TEST_DIR}}/${{env.IQTREE2_RESULT}}
+
+      - name: Upload the log file for iqtree2
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{env.IQTREE2_LOG}}
+          path: ${{env.TEST_DIR}}/*.log
 
 
   test_iqtree1:
@@ -188,10 +195,16 @@ jobs:
           cd ${{env.TEST_DIR}}
           echo "![Result](compare result.png)"
 
+      - name: Download the log file for iqtree2
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{env.IQTREE2_LOG}}
+          path: ${{env.TEST_DIR}}
+
       - name: Send email
         run: |
           cd ${{env.TEST_DIR}}
-          python3 send_email.py -t ${{github.event.pusher.email}} -r result.yml -g ${{ github.repository }}
+          python3 send_email.py -t ${{github.event.pusher.email}} -r result.yml -g ${{ github.repository }} -l ${{env.IQTREE2_LOG}}
 
 
 
