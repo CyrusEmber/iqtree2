@@ -7,6 +7,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import argparse
 
+import yaml
+
 from logger import gen_log
 
 logger = gen_log("test")
@@ -15,6 +17,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('-t', '--to', dest='to_email', help='the email receiver')
 parser.add_argument('-r', '--result', dest='result', help='the result yaml file')
+parser.add_argument('-g', '--github_repo', dest='repository', help='github repository')
 # parser.add_argument('-i', '--image', dest='image', help='the result image')
 
 
@@ -41,14 +44,13 @@ if args.to_email:
 else:
     logger.error("No email specified")
 
-if not args.subject:
-    logger.error("No subject specified")
 
 # Access the log file and concatenate it to the email body
 # find log file that is in the same directory as this script
 for file in os.listdir(os.path.dirname(os.path.abspath(__file__))):
     if file.endswith(".log"):
-        print(file)
+        # print(file)
+        pass
 
 # Attach file
 with open(args.result, "rb") as attachment:
@@ -60,6 +62,24 @@ with open(args.result, "rb") as attachment:
         f"attachment; filename= {args.result}",
     )
     msg.attach(part)
+
+    # Set subject
+    data = yaml.safe_load(args.result)
+    # Count failure tests
+    failed_tests = 0
+    passed_tests = 0
+    for command in data:
+        if command["result"] == "Passed":
+            passed_tests += 1
+        else:
+            failed_tests += 1
+    if failed_tests > 0:
+        email_subject = f'Failed {failed_tests} tests for {args.repository}'
+    else:
+        email_subject = f'Passed all tests for {args.repository}'
+
+    # Set body
+    # email_body = f'Please find the result attached'
 
 
 # Create the email message
