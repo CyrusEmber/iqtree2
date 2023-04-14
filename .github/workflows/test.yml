@@ -184,15 +184,17 @@ jobs:
           name: result.yml
           path: ${{env.TEST_DIR}}/result.yml
 
-      - name: Display image
-        run: |
-          cd ${{env.TEST_DIR}}
-          echo "![Result](compare result.png)"
+      - name: Upload and display the result comparison graph
+        uses: actions/upload-artifact@v3
+        with:
+          name: comparison graph
+          path: ${{env.TEST_DIR}}/compare result.png
+
 
       - name: Send email
         run: |
           cd ${{env.TEST_DIR}}
-          python3 send_email.py -t ${{github.event.pusher.email}} -r result.yml -g ${{ github.repository }} -l ${{env.IQTREE2_LOG}}
+          python3 send_email.py -t ${{github.event.pusher.email}} -r ${{ COMPARE_OUTPUT }} -g ${{ github.repository }} -l ${{env.IQTREE2_LOG}}
 
 
 

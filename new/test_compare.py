@@ -44,101 +44,101 @@ def compare(test_value, expected_value, test):
 
 
 # iqtree1 args.iqtree1 args.iqtree2
-with open(args.iqtree1, "r") as result:
-    data1 = yaml.safe_load(result)
-    # count the failed and passed tests
-    failed_tests = 0
-    passed_tests = 0
-    # iqtree2
-    with open(args.iqtree2, "r") as result2:
-        data2 = yaml.safe_load(result2)
-        # check if the special tests results are true
-        for i in range(len(data1)):
-            # for test_case in data1[i]["tests"]:
-            #     if "value" in test_case.keys():
-            #         cmd1.append(test_case["command"])
-            #         log1.append(test_case["value"])
-            #         time1.append(test_case["time"])
-            # for test_case in data2[i]["tests"]:
-            #     if "value" in test_case.keys():
-            #         cmd2.append(test_case["command"])
-            #         log2.append(test_case["value"])
-            #         time2.append(test_case["time"])
-            # check passed all the tests
-            overall_passed = True
-            for j in range(len(data1[i]["tests"])):
-                test_dict1 = data1[i]["tests"][j]
-                test_dict2 = data2[i]["tests"][j]
-                # add benchmark value to data2
-                if "value" in data1[i]["tests"][j]:
-                    benchmark_value = test_dict1["value"]
-                    test_dict2["benchmark"] = benchmark_value
-                else:
-                    test_dict2["benchmark"] = "No Result"
-                # check if value exists
-                if "value" in test_dict2.keys():
-                    test_value = test_dict2["value"]
-                    passed = True
-                    # if there are tests
-                    is_test = False
-                    for key in test_dict2.keys():
-                        if key in keys:
-                            is_test = True
-                            if not compare(test_value, test_dict2[key], key):
-                                passed = False
-                                overall_passed = False
-                    if passed and is_test:
-                        test_dict2["result"] = "Passed"
-                    elif not is_test:
-                        test_dict2["result"] = "NoTest"
-                    else:
-                        test_dict2["result"] = "Failed"
-                # if there is no value
-                else:
-                    test_dict2["result"] = "Failed"
-            if overall_passed:
-                data2[i]["result"] = "Passed"
-                passed_tests += 1
-            else:
-                data2[i]["result"] = "Failed"
-                failed_tests += 1
-        # args.output_file "result.yml"
-        with open(args.output_file, "w") as f:
-            yaml.dump(data2, f)
-        f.close()
+# with open(args.iqtree1, "r") as result:
+#     data1 = yaml.safe_load(result)
+#     # count the failed and passed tests
+#     failed_tests = 0
+#     passed_tests = 0
+#     # iqtree2
+#     with open(args.iqtree2, "r") as result2:
+#         data2 = yaml.safe_load(result2)
+#         # check if the special tests results are true
+#         for i in range(len(data1)):
+#             # for test_case in data1[i]["tests"]:
+#             #     if "value" in test_case.keys():
+#             #         cmd1.append(test_case["command"])
+#             #         log1.append(test_case["value"])
+#             #         time1.append(test_case["time"])
+#             # for test_case in data2[i]["tests"]:
+#             #     if "value" in test_case.keys():
+#             #         cmd2.append(test_case["command"])
+#             #         log2.append(test_case["value"])
+#             #         time2.append(test_case["time"])
+#             # check passed all the tests
+#             overall_passed = True
+#             for j in range(len(data1[i]["tests"])):
+#                 test_dict1 = data1[i]["tests"][j]
+#                 test_dict2 = data2[i]["tests"][j]
+#                 # add benchmark value to data2
+#                 if "value" in data1[i]["tests"][j]:
+#                     benchmark_value = test_dict1["value"]
+#                     test_dict2["benchmark"] = benchmark_value
+#                 else:
+#                     test_dict2["benchmark"] = "No Result"
+#                 # check if value exists
+#                 if "value" in test_dict2.keys():
+#                     test_value = test_dict2["value"]
+#                     passed = True
+#                     # if there are tests
+#                     is_test = False
+#                     for key in test_dict2.keys():
+#                         if key in keys:
+#                             is_test = True
+#                             if not compare(test_value, test_dict2[key], key):
+#                                 passed = False
+#                                 overall_passed = False
+#                     if passed and is_test:
+#                         test_dict2["result"] = "Passed"
+#                     elif not is_test:
+#                         test_dict2["result"] = "NoTest"
+#                     else:
+#                         test_dict2["result"] = "Failed"
+#                 # if there is no value
+#                 else:
+#                     test_dict2["result"] = "Failed"
+#             if overall_passed:
+#                 data2[i]["result"] = "Passed"
+#                 passed_tests += 1
+#             else:
+#                 data2[i]["result"] = "Failed"
+#                 failed_tests += 1
+#         # args.output_file "result.yml"
+#         with open(args.output_file, "w") as f:
+#             yaml.dump(data2, f)
+#         f.close()
 
 # plot the result
-plot_keywords = ["log likelihood", 'time used:']
+plot_keywords = ['log-likelihood:', 'time used:']
 name = []
 data1 = [[] for _ in range(len(plot_keywords))]
 data2 = [[] for _ in range(len(plot_keywords))]
 
-with open(args.output_file, "w") as f:
+with open("result.yml", "r") as f:
     data = yaml.safe_load(f)
     for cmd in data:
+        # boolean if the cmd has tests
+        has_test = False
         for test in cmd["tests"]:
             if "value" in test.keys():
                 for i in range(len(plot_keywords)):
                     if plot_keywords[i] == test["log"] and "benchmark" in test.keys() and "value" in test.keys():
-                        # for cmd with no name, default name is the prefix of the test
-                        if "name" in cmd.keys():
-                            name.append(cmd["name"])
-                        else:
-                            name.append(cmd["command"].split(" ")[-1])
+                        has_test = True
                         data1[i].append(test["value"])
                         data2[i].append(test["benchmark"])
+        # for cmd with no name, default name is the prefix of the test
+        if has_test:
+            if "name" in cmd.keys():
+                name.append(cmd["name"])
+            else:
+                name.append(cmd["command"].split(" ")[-1])
 
     # plot
-    # plt.subplot(2, 1, 1)
-    # plt.plot(cmd, [float(log1[i]) - float(log2[i]) for i in range(len(log1))], label="difference")
-    # plt.axhline(0, color='red')
-    # plt.legend()
-    # plt.title('log likelihood')
-    # plt.subplot(2, 1, 2)
-    #
-    # plt.plot(cmd, [float(time1[i]) / float(time2[i]) for i in range(len(log1))], label="ratio")
-    # plt.axhline(1, color='red')
-    # plt.legend()
-    # plt.title('running time')
-    # plt.savefig('compare result.png')
-    # plt.show()
+    for i in range(len(plot_keywords)):
+        plt.subplot(len(plot_keywords), 1, i + 1)
+        plt.plot(name, [float(data1[i][j]) - float(data2[i][j]) for j in range(len(data1[i]))], label="difference")
+        plt.plot(name, [float(data1[i][j]) / float(data2[i][j]) for j in range(len(data1[i]))], label="ratio")
+        plt.legend()
+        plt.title(plot_keywords[i])
+
+    plt.savefig('compare result.png')
+    plt.show()
