@@ -64,6 +64,7 @@ with open(args.result, "rb") as attachment:
         attachment.read(),
         Name=basename(args.result)
     )
+    part['Content-Disposition'] = 'attachment; filename="%s"' % basename(args.result)
     msg.attach(part)
 
     # Set subject
@@ -86,8 +87,7 @@ with open(args.result, "rb") as attachment:
 email_body = f'Testing'
 
 # Attach files
-part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
-msg.attach(part)
+
 if args.attachment:
     for file in args.attachment:
         with open(file, "rb") as attachment:
@@ -96,6 +96,7 @@ if args.attachment:
                 Name=basename(file)
             )
             attachment.close()
+        part['Content-Disposition'] = 'attachment; filename="%s"' % basename(file)
         msg.attach(part)
 
 
