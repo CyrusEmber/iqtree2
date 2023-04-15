@@ -24,7 +24,7 @@ parser.add_argument('-t', '--to', dest='to_email', help='the email receiver')
 parser.add_argument('-r', '--result', dest='result', help='the result yml file')
 parser.add_argument('-g', '--github_repo', dest='repository', help='github repository')
 parser.add_argument('-a', '--attachment', dest='attachment', action='append', help='the files to attach')
-parser.add_argument('-i', '--link', dest='link', help='the link to the workflow')
+parser.add_argument('-l', '--link', dest='link', help='the link to the workflow')
 
 
 # Parse the command-line arguments
@@ -83,7 +83,7 @@ part['Content-Disposition'] = 'attachment; filename="%s"' % basename(args.result
 msg.attach(part)
 
 # Set body
-email_body = args.link
+email_body = f"Workflow link {args.link}"
 
 # Attach files
 
