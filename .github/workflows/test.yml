@@ -19,7 +19,7 @@ env:
   IQTREE2_RESULT: "iqtree2_result.yml"
   IQTREE2_LOG: "iqtree2.log"
   COMPARE_OUTPUT: "result.yml"
-  IMG_OUTPUT: "compare result.png"
+  IMG_OUTPUT: "compare_result.png"
 
 jobs:
   build:
@@ -196,7 +196,7 @@ jobs:
       - name: Send email
         run: |
           cd ${{env.TEST_DIR}}
-          python3 send_email.py -t ${{github.event.pusher.email}} -r ${{ env.COMPARE_OUTPUT }} -g ${{ github.repository }} -a ${{env.IMG_OUTPUT}}
+          python3 send_email.py -t ${{github.event.pusher.email}} -r ${{env.COMPARE_OUTPUT}} -g ${{github.repository}} -a ${{env.IMG_OUTPUT}}
 
 
 
