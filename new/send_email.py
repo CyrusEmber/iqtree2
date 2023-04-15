@@ -2,10 +2,12 @@ import logging
 import smtplib, ssl
 import os
 from email import encoders
+from email.mime.application import MIMEApplication
 from email.mime.base import MIMEBase
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import argparse
+from os.path import basename
 
 import yaml
 
@@ -58,12 +60,9 @@ for file in os.listdir(os.path.dirname(os.path.abspath(__file__))):
 
 # Attach file args.result
 with open(args.result, "rb") as attachment:
-    part = MIMEBase("application", "octet-stream")
-    part.set_payload(attachment.read())
-    encoders.encode_base64(part)
-    part.add_header(
-        "Content-Disposition",
-        f"attachment; filename= {args.result}",
+    part = MIMEApplication(
+        attachment.read(),
+        Name=basename(args.result)
     )
     msg.attach(part)
 
@@ -87,18 +86,18 @@ with open(args.result, "rb") as attachment:
 email_body = f'Testing'
 
 # Attach files
+part['Content-Disposition'] = 'attachment; filename="%s"' % basename(f)
+msg.attach(part)
 if args.attachment:
     for file in args.attachment:
         with open(file, "rb") as attachment:
-            part = MIMEBase("application", "octet-stream")
-            part.set_payload(attachment.read())
-            encoders.encode_base64(part)
-            part.add_header(
-                "Content-Disposition",
-                f"attachment; filename= {file}",
+            part = MIMEApplication(
+                attachment.read(),
+                Name=basename(file)
             )
-            msg.attach(part)
             attachment.close()
+        msg.attach(part)
+
 
 # Create the email message
 msg = MIMEText(email_body)
