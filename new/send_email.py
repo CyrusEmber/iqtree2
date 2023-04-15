@@ -80,8 +80,8 @@ with open(args.result, "rb") as attachment:
         email_subject = f'Passed all tests for {args.repository}'
     attachment.close()
 
-    # Set body
-    # email_body = f'Please find the result attached'
+# Set body
+email_body = f'Testing'
 
 # Attach files
 if args.attachment:
