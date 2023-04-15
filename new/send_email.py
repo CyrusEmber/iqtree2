@@ -24,7 +24,7 @@ parser.add_argument('-t', '--to', dest='to_email', help='the email receiver')
 parser.add_argument('-r', '--result', dest='result', help='the result yml file')
 parser.add_argument('-g', '--github_repo', dest='repository', help='github repository')
 parser.add_argument('-a', '--attachment', dest='attachment', action='append', help='the files to attach')
-# parser.add_argument('-i', '--image', dest='image', help='the result image')
+parser.add_argument('-i', '--link', dest='link', help='the link to the workflow')
 
 
 # Parse the command-line arguments
@@ -37,7 +37,7 @@ username = 'Cyrusiris@outlook.com'
 password = 'Daohaomei77'
 
 # Email settings
-to_email = '741716775@qq.com'
+to_email = ''
 from_email = username
 email_subject = 'Github Action Result'
 email_body = 'test'
@@ -49,7 +49,6 @@ if args.to_email:
     to_email = args.to_email
 else:
     logger.error("No email specified")
-
 
 # Access the log file and concatenate it to the email body
 # find log file that is in the same directory as this script
@@ -64,7 +63,6 @@ with open(args.result, "rb") as attachment:
         attachment.read(),
         Name=basename(args.result)
     )
-
 
     # Set subject
     data = yaml.safe_load(open(args.result))
@@ -85,7 +83,7 @@ part['Content-Disposition'] = 'attachment; filename="%s"' % basename(args.result
 msg.attach(part)
 
 # Set body
-email_body = f'Testing'
+email_body = args.link
 
 # Attach files
 
@@ -100,18 +98,9 @@ if args.attachment:
         part['Content-Disposition'] = 'attachment; filename="%s"' % basename(file)
         msg.attach(part)
 
-# test
-with open("result.yml", "rb") as attachment:
-    part = MIMEApplication(
-        attachment.read(),
-        Name=basename("result.yml")
-    )
-    attachment.close()
-part['Content-Disposition'] = 'attachment; filename="%s"' % basename("result.yml")
-msg.attach(part)
 
 # Create the email message
-msg = MIMEText(email_body)
+msg['Body'] = email_body
 msg['Subject'] = email_subject
 msg['From'] = from_email
 msg['To'] = to_email

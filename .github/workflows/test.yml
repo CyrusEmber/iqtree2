@@ -197,7 +197,7 @@ jobs:
       - name: Send email
         run: |
           cd ${{env.TEST_DIR}}
-          python3 send_email.py -t ${{github.event.pusher.email}} -r ${{env.COMPARE_OUTPUT}} -g ${{github.repository}} -a ${{env.IMG_OUTPUT}}
+          python3 send_email.py -t ${{github.event.pusher.email}} -r ${{env.COMPARE_OUTPUT}} -g ${{github.repository}} -a ${{env.IMG_OUTPUT}} -l ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
 
 
 
