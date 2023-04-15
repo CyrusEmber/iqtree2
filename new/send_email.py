@@ -64,8 +64,7 @@ with open(args.result, "rb") as attachment:
         attachment.read(),
         Name=basename(args.result)
     )
-    part['Content-Disposition'] = 'attachment; filename="%s"' % basename(args.result)
-    msg.attach(part)
+
 
     # Set subject
     data = yaml.safe_load(open(args.result))
@@ -82,6 +81,8 @@ with open(args.result, "rb") as attachment:
     else:
         email_subject = f'Passed all tests for {args.repository}'
     attachment.close()
+part['Content-Disposition'] = 'attachment; filename="%s"' % basename(args.result)
+msg.attach(part)
 
 # Set body
 email_body = f'Testing'
