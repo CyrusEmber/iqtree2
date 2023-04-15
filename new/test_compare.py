@@ -140,5 +140,5 @@ with open("result.yml", "r") as f:
         plt.legend()
         plt.title(plot_keywords[i])
 
-    plt.savefig('compare result.png')
-    plt.show()
+    plt.savefig(args.image_output)
+    # plt.show()

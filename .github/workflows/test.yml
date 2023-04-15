@@ -177,7 +177,7 @@ jobs:
       - name: Compare test
         run: |
           cd ${{env.TEST_DIR}}
-          python3 test_compare.py -1 ${{env.IQTREE1_RESULT}} -2 ${{env.IQTREE2_RESULT}} -o ${{env.COMPARE_OUTPUT}}
+          python3 test_compare.py -1 ${{env.IQTREE1_RESULT}} -2 ${{env.IQTREE2_RESULT}} -o ${{env.COMPARE_OUTPUT}} -i ${{env.IMG_OUTPUT}}
         # -o compare result.png
 
       - name: Upload the overall result
