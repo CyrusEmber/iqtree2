@@ -82,11 +82,7 @@ with open(args.result, "rb") as attachment:
 part['Content-Disposition'] = 'attachment; filename="%s"' % basename(args.result)
 msg.attach(part)
 
-# Set body
-msg.attach(MIMEText(f"Workflow link {args.link}"))
-
 # Attach files
-
 if args.attachment:
     for file in args.attachment:
         with open(file, "rb") as attachment:
@@ -100,6 +96,8 @@ if args.attachment:
 
 
 # Create the email message
+# Set body
+msg.attach(MIMEText(f"Workflow link {args.link}"))
 msg['Subject'] = email_subject
 msg['From'] = from_email
 msg['To'] = to_email
