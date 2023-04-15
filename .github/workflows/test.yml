@@ -122,8 +122,6 @@ jobs:
 
       - name: Install dependency
         run: |
-          echo "The name of the pusher: ${{ github.event.pusher.name }}"
-          echo "The email of the pusher: ${{ github.event.pusher.email }}"
           python -m pip install --upgrade pip
           cd ${{env.TEST_DIR}}
           pip install -r requirements.txt
@@ -195,7 +193,7 @@ jobs:
           name: comparison graph
           path: ${{env.TEST_DIR}}/${{env.IMG_OUTPUT}}
 
-
+      # See https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
       - name: Send email
         run: |
           cd ${{env.TEST_DIR}}

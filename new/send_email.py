@@ -11,6 +11,9 @@ import yaml
 
 from logger import gen_log
 
+# Make email address valid and set email public
+# See https://docs.github.com/en/account-and-profile/setting-up-and-managing-your-personal-account-on-github/managing-email-preferences/setting-your-commit-email-address
+
 logger = gen_log("test")
 # Parse command line arguments
 parser = argparse.ArgumentParser()
