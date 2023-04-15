@@ -26,9 +26,9 @@ parser.add_argument('-a', '--attachment', dest='attachment', action='append', he
 args = parser.parse_args()
 
 # the email address to send the email
-server = 'smtp.gmail.com'
+server = 'smtp.outlook.com'
 port = 587
-username = 'cyrusiris1@gmail.com'
+username = 'Cyrusiris@outlook.com'
 password = 'Daohaomei77'
 
 # Email settings
