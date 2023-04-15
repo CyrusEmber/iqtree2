@@ -19,6 +19,7 @@ env:
   IQTREE2_RESULT: "iqtree2_result.yml"
   IQTREE2_LOG: "iqtree2.log"
   COMPARE_OUTPUT: "result.yml"
+  IMG_OUTPUT: "compare result.png"
 
 jobs:
   build:
@@ -172,6 +173,7 @@ jobs:
           cd ${{env.TEST_DIR}}
           pip install -r requirements.txt
 
+      # compare with the result and generate a result yml file and a compare graph
       - name: Compare test
         run: |
           cd ${{env.TEST_DIR}}
@@ -188,13 +190,13 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: comparison graph
-          path: ${{env.TEST_DIR}}/compare result.png
+          path: ${{env.TEST_DIR}}/${{env.IMG_OUTPUT}}
 
 
       - name: Send email
         run: |
           cd ${{env.TEST_DIR}}
-          python3 send_email.py -t ${{github.event.pusher.email}} -r ${{ env.COMPARE_OUTPUT }} -g ${{ github.repository }} -l ${{env.IQTREE2_LOG}}
+          python3 send_email.py -t ${{github.event.pusher.email}} -r ${{ env.COMPARE_OUTPUT }} -g ${{ github.repository }} -a ${{env.IMG_OUTPUT}}
 
 
 
