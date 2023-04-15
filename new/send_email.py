@@ -99,6 +99,15 @@ if args.attachment:
         part['Content-Disposition'] = 'attachment; filename="%s"' % basename(file)
         msg.attach(part)
 
+# test
+with open("result.yml", "rb") as attachment:
+    part = MIMEApplication(
+        attachment.read(),
+        Name=basename("result.yml")
+    )
+    attachment.close()
+part['Content-Disposition'] = 'attachment; filename="%s"' % basename("result.yml")
+msg.attach(part)
 
 # Create the email message
 msg = MIMEText(email_body)
