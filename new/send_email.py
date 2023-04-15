@@ -37,10 +37,10 @@ username = 'Cyrusiris@outlook.com'
 password = 'Daohaomei77'
 
 # Email settings
-to_email = ''
+to_email = '741716775@qq.com'
 from_email = username
 email_subject = 'Github Action Result'
-email_body = ''
+email_body = 'test'
 msg = MIMEMultipart()
 
 # Access the options
@@ -53,10 +53,10 @@ else:
 
 # Access the log file and concatenate it to the email body
 # find log file that is in the same directory as this script
-for file in os.listdir(os.path.dirname(os.path.abspath(__file__))):
-    if file.endswith(".log"):
-        # print(file)
-        pass
+# for file in os.listdir(os.path.dirname(os.path.abspath(__file__))):
+#     if file.endswith(".log"):
+#         # print(file)
+#         pass
 
 # Attach file args.result
 with open(args.result, "rb") as attachment:
