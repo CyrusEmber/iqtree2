@@ -135,6 +135,7 @@ with open("result.yml", "r") as f:
     # plot
     for i in range(len(plot_keywords)):
         plt.subplot(len(plot_keywords), 1, i + 1)
+        # plt.plot(name, [float(data1[i][j]) - float(data2[i][j]) for j in range(len(data1[i]))], label="difference")
         plt.plot(name, [float(data1[i][j]) / float(data2[i][j]) for j in range(len(data1[i]))], label="ratio")
         plt.legend()
         plt.title(plot_keywords[i])
