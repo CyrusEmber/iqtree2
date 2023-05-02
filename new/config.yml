@@ -30,10 +30,11 @@ specific_test:
         less_equal: 5
       - log: "Total wall-clock time used:"
         greater_equal: 0.5
-#  - name: my test 2
-#    command: -s test_data/example.phy -redo -sp test_data/example.nex - -m TEST
-#    tests:
-#      - log: "Total wall-clock time used:"
-#        greater: 10.1
+  - name: my test 2
+    command: -s test_data/example.phy -redo -sp test_data/example.nex - -m TEST
+    tests:
+      - log: "Total wall-clock time used:"
+        greater: 10.1
 
-
+result_outlier_threshold: 0.5
+#

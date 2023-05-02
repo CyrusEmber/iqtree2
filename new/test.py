@@ -4,7 +4,7 @@ import argparse
 from ArgParser import ArgParser
 
 from config_parser import YmlParser
-from executor import concurrent_commands
+from concurrent_running import concurrent_commands
 from logger import gen_log
 
 if __name__ == '__main__':

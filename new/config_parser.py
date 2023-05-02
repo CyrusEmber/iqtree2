@@ -161,7 +161,7 @@ class YmlParser:
         pass
 
 
-# used for yaml read
+# used for yaml class read
 def cmd_constructor(loader, node):
     cmd, specific_test, value = loader.construct_scalar(node)
     return CMD(cmd, specific_test, value)
