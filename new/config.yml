@@ -11,9 +11,33 @@ single_alignments:
 partition_options:
    - -sp
    - -spp
+   - -q
 
 generic_options:
    - -m TEST
+
+options:
+   - -mset
+   - -msub
+   - -mfreq
+   - -mrate
+   - -cmin
+   - -cmax
+   - -mtree
+   # tree search parameters
+   - -allnni
+   - -djc
+   - -g
+   - -ninit
+   - -n
+   - -nstop
+   # ultra fast bootstrap parameters
+   - -bb
+   - -bcor
+   - -beps
+   - -bnni
+   - -bsam
+   - -nm
 
 specific_test:
   # iqtree2 location is in the bin folder
@@ -31,7 +55,7 @@ specific_test:
       - log: "Total wall-clock time used:"
         greater_equal: 0.5
   - name: my test 2
-    command: -s test_data/example.phy -redo -sp test_data/example.nex - -m TEST
+    command: -s test_data/example.phy -redo -sp test_data/example.nex -m TEST
     tests:
       - log: "Total wall-clock time used:"
         greater: 10.1

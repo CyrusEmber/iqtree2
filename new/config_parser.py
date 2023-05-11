@@ -58,16 +58,31 @@ class YmlParser:
         Returns: list of CMD() objects
         """
         # Generate test commands for single model
-        cmds = []
+        ali_cmds = []
         for aln in self.data["single_alignments"]:
             cmd = f"-s {test_files}{aln} -redo"
-            cmds.append(cmd)
+            ali_cmds.append(cmd)
 
         # Generate test commands for partition model
         for part_aln in self.data["partition_alignments"]:
             for partOpt in self.data["partition_options"]:
                 cmd = f"-s {test_files}{part_aln['aln']} -redo {partOpt} {test_files}{part_aln['prt']}"
-                cmds.append(cmd)
+                ali_cmds.append(cmd)
+
+        gen_cmds = []
+        # Generate test commands for generic options
+        for cmd in ali_cmds:
+            if "generic_options" in self.data.keys():
+                for gen_opt in self.data["generic_options"]:
+                    new_cmd = f"{cmd} {gen_opt}"
+                    gen_cmds.append(new_cmd)
+        # new options
+        cmds = []
+        for cmd in gen_cmds:
+            if "options" in self.data.keys():
+                for gen_opt in self.data["options"]:
+                    new_cmd = f"{cmd} {gen_opt}"
+                    cmds.append(new_cmd)
 
         # test commands that with more options
         # for opt in self.data["option"]:
@@ -82,11 +97,11 @@ class YmlParser:
                 cmd["tests"].append({"log": default_test})
 
         # output the cmd for debug
-        # with open(out_file, "w") as f:
-        #     for cmd in [f"{bin}/{iqtree} {cmd}" for cmd in cmds]:
-        #         f.write(cmd + "\n")
-        #
-        # f.close()
+        with open(out_file, "w") as f:
+            for cmd in [f"{bin}/{iqtree} {cmd}" for cmd in cmds]:
+                f.write(cmd + "\n")
+
+        f.close()
 
         return self.cmds
 
