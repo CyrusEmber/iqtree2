@@ -78,11 +78,16 @@ class YmlParser:
                     gen_cmds.append(new_cmd)
         # new options
         cmds = []
-        for cmd in gen_cmds:
-            if "options" in self.data.keys():
-                for gen_opt in self.data["options"]:
-                    new_cmd = f"{cmd} {gen_opt}"
-                    cmds.append(new_cmd)
+        if "options" in self.data.keys():
+            if self.data["options"]:
+                for cmd in gen_cmds:
+                    for gen_opt in self.data["options"]:
+                        new_cmd = f"{cmd} {gen_opt}"
+                        cmds.append(new_cmd)
+            else:
+                cmds = gen_cmds
+        else:
+            cmds = gen_cmds
 
         # test commands that with more options
         # for opt in self.data["option"]:
@@ -142,7 +147,7 @@ class YmlParser:
     def add_prefix(self):
         prefix = 0
         for cmd in self.cmds:
-            cmd["command"] = f"{cmd['command']} -pre test.{prefix}"
+            cmd["command"] = f"{cmd['command']} -pre log/test.{prefix}"
             prefix += 1
 
     def save_value(self, file):
