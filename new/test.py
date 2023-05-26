@@ -13,14 +13,13 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     # debug
-    parser = YmlParser('config.yml', iqtree='iqtree', bin='bin')
+    parser = YmlParser('config.yml', iqtree='iqtree-2.2.0', bin='bin')
     # concurrent_commands(parser.cmds, output_result="iqtree1_result.yml")
 
 
+    # logger = gen_log(f"test {args.version}")
 
-    logger = gen_log(f"test {args.version}")
 
-
-    parser = YmlParser(args.config_file, iqtree=args.version, bin=args.bin)
-
-    concurrent_commands(parser.cmds, output_result=args.output_file)
+    # parser = YmlParser(args.config_file, iqtree=args.version, bin=args.bin)
+    # args.output_file
+    concurrent_commands(parser.cmds, output_result="iqtree-2.2.0.yml")
